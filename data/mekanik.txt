@@ -1,0 +1,2 @@
+P101,Andi Pratama,081311112222,Jl. Mawar No. 3 Jakarta,M001,Mesin
+P102,Dedi Kurniawan,081333334444,Jl. Anggrek No. 8 Jakarta,M002,Kelistrikan

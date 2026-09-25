@@ -1,0 +1,5 @@
+Part,P-001,Oli Mesin 0.8L,55000.0,Yamalube,19
+Part,P-002,Kampas Rem Depan,85000.0,Honda,10
+Part,P-003,Busi,30000.0,NGK,25
+Jasa,J-001,Service Rutin,75000.0,Servis Berkala,60
+Jasa,J-002,Ganti Kampas Rem,35000.0,Rem,30
