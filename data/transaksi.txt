@@ -1,1 +1,2 @@
 PKB-20260924-001,24-09-2026 10:15,15200,B 1234 ABC,C001,M001,Ganti kampas rem belakang bulan depan,Garansi jasa 7 hari
+234143,09-07-2026 21:49,15,B 1234 ABC,C001,M001,Mungkin transaksinya dapat diperbarui,4 bulan
