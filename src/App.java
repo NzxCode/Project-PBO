@@ -9,7 +9,6 @@ import java.util.Locale;
 import com.bengkel.Cetak;
 import com.bengkel.Customer;
 import com.bengkel.DataFile;
-import com.bengkel.DetailTransaksi;
 import com.bengkel.Input;
 import com.bengkel.ItemLayanan;
 import com.bengkel.Jasa;
@@ -188,13 +187,11 @@ public class App {
                 System.out.println("Item dengan kode " + kode + " tidak ditemukan.");
             } else {
                 int qty = Input.bacaInt("Qty = ", 1, 9999);
-                double diskon = Input.bacaDouble("Diskon (%) = ", 0, 100);
                 try {
-                    DetailTransaksi detail = new DetailTransaksi(item, qty, item.getHarga(), diskon);
                     if (item instanceof Part) {
-                        ((Part) item).kurangiStok(qty); //downcasting
+                        ((Part) item).kurangiStok(qty); //downcasting; melempar exception jika stok kurang
                     }
-                    transaksi.addDetail(detail);
+                    transaksi.addDetail(item, qty);
                     System.out.println("Ditambahkan: " + item.getNama() + " x" + qty);
                 } catch (IllegalArgumentException e) {
                     System.out.println("Gagal menambah item: " + e.getMessage());

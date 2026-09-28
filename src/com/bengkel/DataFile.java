@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class DataFile {
@@ -226,8 +228,8 @@ public class DataFile {
                     System.out.println("[detail.txt] baris " + nomor + " dilewati: transaksi/item tidak ditemukan");
                     continue;
                 }
-                t.addDetail(new DetailTransaksi(item, Integer.parseInt(str[2]),
-                        Double.parseDouble(str[3]), Double.parseDouble(str[4])));
+                //format: noPKB,kodeItem,qty  (kolom harga/diskon format lama diabaikan)
+                t.addDetail(item, Integer.parseInt(str[2]));
             } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
                 laporSkip("detail.txt", nomor, e);
             }
@@ -242,9 +244,13 @@ public class DataFile {
             barisTransaksi.add(gabung(t.getNoPKB(), t.getTanggalWaktu(), t.getKmSaatIni(),
                     t.getKendaraan().getNoPolisi(), t.getCustomer().getNoCustomer(),
                     t.getMekanik().getIdMekanik(), t.getSaranPerbaikan(), t.getGaransi()));
-            for (DetailTransaksi d : t.getListDetail()) {
-                barisDetail.add(gabung(t.getNoPKB(), d.getItem().getKode(), d.getQty(),
-                        d.getHargaSatuan(), d.getDiskonPersen()));
+            //item yang sama digabung: satu baris per kode item beserta qty-nya
+            Map<String, Integer> jumlah = new LinkedHashMap<String, Integer>();
+            for (ItemLayanan item : t.getListDetail()) {
+                jumlah.merge(item.getKode(), 1, Integer::sum);
+            }
+            for (Map.Entry<String, Integer> e : jumlah.entrySet()) {
+                barisDetail.add(gabung(t.getNoPKB(), e.getKey(), e.getValue()));
             }
         }
         tulisBaris(FILE_TRANSAKSI, barisTransaksi);

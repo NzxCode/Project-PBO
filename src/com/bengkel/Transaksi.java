@@ -3,8 +3,10 @@ package com.bengkel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /*
  * Class Transaksi (PKB / Perintah Kerja Bengkel)
@@ -18,7 +20,7 @@ public class Transaksi implements Cetak {
     private Kendaraan kendaraan;
     private Customer customer;
     private Mekanik mekanik;
-    private List<DetailTransaksi> listDetail;
+    private List<ItemLayanan> listDetail; //1..* ItemLayanan (Part / Jasa)
     /****************/
     private String saranPerbaikan;
     private String garansi;
@@ -33,7 +35,7 @@ public class Transaksi implements Cetak {
     public Transaksi(String noPKB, String tanggalWaktu, int kmSaatIni,
                      Kendaraan kendaraan, Customer customer, Mekanik mekanik,
                      String saranPerbaikan, String garansi) {
-        listDetail = new ArrayList<DetailTransaksi>();
+        listDetail = new ArrayList<ItemLayanan>();
         setNoPKB(noPKB);
         setTanggalWaktu(tanggalWaktu);
         setKmSaatIni(kmSaatIni);
@@ -47,7 +49,7 @@ public class Transaksi implements Cetak {
     //Constructor #2: ask user to input each attribute value
     //(kendaraan, customer, mekanik diisi dari data yang sudah ada via setter)
     public Transaksi() {
-        listDetail = new ArrayList<DetailTransaksi>();
+        listDetail = new ArrayList<ItemLayanan>();
         setNoPKB(Input.bacaString("No PKB = "));
         String waktu = Input.bacaStringKosong("Tanggal & Waktu dd-MM-yyyy HH:mm (kosong = sekarang) = ");
         if (waktu.isEmpty()) {
@@ -122,27 +124,38 @@ public class Transaksi implements Cetak {
     public double getGrandTotal() {
         return grandTotal;
     }
-    //Tambahan (belum ada di class diagram): dibutuhkan untuk menyimpan detail ke file
-    public List<DetailTransaksi> getListDetail() {
+    public List<ItemLayanan> getListDetail() {
         return listDetail;
     }
 
-    //Tambah satu baris detail ke transaksi, lalu hitung ulang total
-    public void addDetail(DetailTransaksi detail) {
-        listDetail.add(detail);
+    //Tambah satu item (Part / Jasa) ke transaksi, lalu hitung ulang total
+    public void addDetail(ItemLayanan item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item tidak boleh kosong");
+        }
+        listDetail.add(item);
         hitungTotal();
+    }
+
+    //Tambah item sebanyak qty (item yang sama dicatat qty kali di listDetail)
+    public void addDetail(ItemLayanan item, int qty) {
+        if (qty <= 0) {
+            throw new IllegalArgumentException("Qty harus lebih dari 0");
+        }
+        for (int i = 0; i < qty; i++) {
+            addDetail(item);
+        }
     }
 
     //Hitung totalJasa, totalPart, dan grandTotal
     public double hitungTotal() {
         totalJasa = 0;
         totalPart = 0;
-        for (DetailTransaksi d : listDetail) {
-            ItemLayanan item = d.getItem();
+        for (ItemLayanan item : listDetail) {
             if (item instanceof Jasa) {
-                totalJasa += d.hitungSubtotal();
+                totalJasa += item.getHarga();
             } else if (item instanceof Part) {
-                totalPart += d.hitungSubtotal();
+                totalPart += item.getHarga();
             }
         }
         grandTotal = totalJasa + totalPart;
@@ -179,17 +192,25 @@ public class Transaksi implements Cetak {
             System.out.println("Mekanik       : " + mekanik.getNama() + " (" + mekanik.getSpesialisasi() + ")");
         }
         System.out.println(garis2);
-        System.out.printf(ID, "%-3s %-24s %4s %12s %5s %13s%n", "No", "Item", "Qty", "Harga", "Disk%", "Subtotal");
+        System.out.printf(ID, "%-3s %-28s %4s %13s %14s%n", "No", "Item", "Qty", "Harga", "Subtotal");
         System.out.println(garis2);
+        //Item yang sama (kode sama) digabung jadi satu baris dengan Qty
+        Map<String, ItemLayanan> itemUnik = new LinkedHashMap<String, ItemLayanan>();
+        Map<String, Integer> jumlah = new LinkedHashMap<String, Integer>();
+        for (ItemLayanan item : listDetail) {
+            itemUnik.putIfAbsent(item.getKode(), item);
+            jumlah.merge(item.getKode(), 1, Integer::sum);
+        }
         int no = 1;
-        for (DetailTransaksi d : listDetail) {
-            System.out.printf(ID, "%-3d %-24s %4d %12s %5s %13s%n",
+        for (String kode : itemUnik.keySet()) {
+            ItemLayanan item = itemUnik.get(kode);
+            int qty = jumlah.get(kode);
+            System.out.printf(ID, "%-3d %-28s %4d %13s %14s%n",
                     no++,
-                    potong(d.getItem().getNama() + " [" + d.getItem().getJenisItem() + "]", 24),
-                    d.getQty(),
-                    String.format(ID, "%,.0f", d.getHargaSatuan()),
-                    String.format(ID, "%.0f", d.getDiskonPersen()),
-                    String.format(ID, "%,.0f", d.getSubtotal()));
+                    potong(item.getNama() + " [" + item.getJenisItem() + "]", 28),
+                    qty,
+                    String.format(ID, "%,.0f", item.getHarga()),
+                    String.format(ID, "%,.0f", item.getHarga() * qty));
         }
         System.out.println(garis2);
         System.out.printf(ID, "%-40s %25s%n", "Total Jasa", "Rp " + String.format(ID, "%,.0f", totalJasa));
