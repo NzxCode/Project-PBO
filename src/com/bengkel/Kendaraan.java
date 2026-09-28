@@ -31,7 +31,7 @@ public abstract class Kendaraan {
         //ask input for each attribute and call its setter
         setNoPolisi(Input.bacaString("No Polisi = "));
         setMerk(Input.bacaString("Merk = "));
-        setTipe(Input.bacaString("Unit = "));
+        setTipe(Input.bacaString("Tipe = "));
         setTahun(Input.bacaInt("Tahun = ", 1900, 2100));
         setWarna(Input.bacaString("Warna = "));
         setKm(Input.bacaInt("KM = ", 0, Integer.MAX_VALUE));
