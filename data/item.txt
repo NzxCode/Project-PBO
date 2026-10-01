@@ -7,3 +7,4 @@ Part,P-004,Knalpot Motor,95000.0,Honda,10
 Jasa,J-003,Ganti Knalpot Motor,45000.0,Knalpot,45
 Part,P-005,Spion Motor,25000.0,Honda,10
 Jasa,J-004,Ganti Spion Motor,15000.0,Spion Jasa,20
+Part,P-006,Lampu Depan,95000.0,Brembo,9
