@@ -1,3 +1,3 @@
-PKB-20260924-001,24-09-2026 10:15,15200,B 1234 ABC,C001,M001,Ganti kampas rem belakang bulan depan,Garansi jasa 7 hari
-234143,09-07-2026 21:49,15,B 1234 ABC,C001,M001,Mungkin transaksinya dapat diperbarui,4 bulan
-PKB-20260927-001,27-09-2026 21:40,12200,B 5678 DEF,C001,M003,Ganti Knalpotnya soalnya agak bocor,1 bulan
+PKB-20260924-001,24-09-2026 10:15,15200,B 1234 ABC,C001,M001,Ganti kampas rem belakang bulan depan,Garansi jasa 7 hari,J-001|P-001
+234143,09-07-2026 21:49,15,B 1234 ABC,C001,M001,Mungkin transaksinya dapat diperbarui,4 bulan,P-001|P-002
+PKB-20260927-001,27-09-2026 21:40,12200,B 5678 DEF,C001,M003,Ganti Knalpotnya soalnya agak bocor,1 bulan,P-001

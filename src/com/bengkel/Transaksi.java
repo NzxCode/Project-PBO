@@ -18,7 +18,7 @@ public class Transaksi implements Cetak {
     private Kendaraan kendaraan;
     private Customer customer;
     private Mekanik mekanik;
-    private List<DetailTransaksi> listDetail;
+    private List<ItemLayanan> listItem; //relasi 1..* ke ItemLayanan (Jasa / Part)
     /****************/
     private String saranPerbaikan;
     private String garansi;
@@ -33,7 +33,7 @@ public class Transaksi implements Cetak {
     public Transaksi(String noPKB, String tanggalWaktu, int kmSaatIni,
                      Kendaraan kendaraan, Customer customer, Mekanik mekanik,
                      String saranPerbaikan, String garansi) {
-        listDetail = new ArrayList<DetailTransaksi>();
+        listItem = new ArrayList<ItemLayanan>();
         setNoPKB(noPKB);
         setTanggalWaktu(tanggalWaktu);
         setKmSaatIni(kmSaatIni);
@@ -47,7 +47,7 @@ public class Transaksi implements Cetak {
     //Constructor #2: ask user to input each attribute value
     //(kendaraan, customer, mekanik diisi dari data yang sudah ada via setter)
     public Transaksi() {
-        listDetail = new ArrayList<DetailTransaksi>();
+        listItem = new ArrayList<ItemLayanan>();
         setNoPKB(Input.bacaString("No PKB = "));
         String waktu = Input.bacaStringKosong("Tanggal & Waktu dd-MM-yyyy HH:mm (kosong = sekarang) = ");
         if (waktu.isEmpty()) {
@@ -122,14 +122,14 @@ public class Transaksi implements Cetak {
     public double getGrandTotal() {
         return grandTotal;
     }
-    //Tambahan (belum ada di class diagram): dibutuhkan untuk menyimpan detail ke file
-    public List<DetailTransaksi> getListDetail() {
-        return listDetail;
+    //Relasi 1..* ke ItemLayanan: dibutuhkan untuk menyimpan item ke file
+    public List<ItemLayanan> getListItem() {
+        return listItem;
     }
 
-    //Tambah satu baris detail ke transaksi, lalu hitung ulang total
-    public void addDetail(DetailTransaksi detail) {
-        listDetail.add(detail);
+    //Tambah satu item (Jasa / Part) ke transaksi, lalu hitung ulang total
+    public void addItem(ItemLayanan item) {
+        listItem.add(item);
         hitungTotal();
     }
 
@@ -137,12 +137,11 @@ public class Transaksi implements Cetak {
     public double hitungTotal() {
         totalJasa = 0;
         totalPart = 0;
-        for (DetailTransaksi d : listDetail) {
-            ItemLayanan item = d.getItem();
+        for (ItemLayanan item : listItem) {
             if (item instanceof Jasa) {
-                totalJasa += d.hitungSubtotal();
+                totalJasa += item.getHarga();
             } else if (item instanceof Part) {
-                totalPart += d.hitungSubtotal();
+                totalPart += item.getHarga();
             }
         }
         grandTotal = totalJasa + totalPart;
@@ -179,17 +178,15 @@ public class Transaksi implements Cetak {
             System.out.println("Mekanik       : " + mekanik.getNama() + " (" + mekanik.getSpesialisasi() + ")");
         }
         System.out.println(garis2);
-        System.out.printf(ID, "%-3s %-24s %4s %12s %5s %13s%n", "No", "Item", "Qty", "Harga", "Disk%", "Subtotal");
+        System.out.printf(ID, "%-3s %-34s %-6s %17s%n", "No", "Item", "Jenis", "Harga");
         System.out.println(garis2);
         int no = 1;
-        for (DetailTransaksi d : listDetail) {
-            System.out.printf(ID, "%-3d %-24s %4d %12s %5s %13s%n",
+        for (ItemLayanan item : listItem) {
+            System.out.printf(ID, "%-3d %-34s %-6s %17s%n",
                     no++,
-                    potong(d.getItem().getNama() + " [" + d.getItem().getJenisItem() + "]", 24),
-                    d.getQty(),
-                    String.format(ID, "%,.0f", d.getHargaSatuan()),
-                    String.format(ID, "%.0f", d.getDiskonPersen()),
-                    String.format(ID, "%,.0f", d.getSubtotal()));
+                    potong(item.getNama(), 34),
+                    item.getJenisItem(),
+                    String.format(ID, "%,.0f", item.getHarga()));
         }
         System.out.println(garis2);
         System.out.printf(ID, "%-40s %25s%n", "Total Jasa", "Rp " + String.format(ID, "%,.0f", totalJasa));

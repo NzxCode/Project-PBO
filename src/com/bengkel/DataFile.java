@@ -14,7 +14,6 @@ public class DataFile {
     public static final String FILE_MEKANIK   = FOLDER + "/mekanik.txt";
     public static final String FILE_ITEM      = FOLDER + "/item.txt";
     public static final String FILE_TRANSAKSI = FOLDER + "/transaksi.txt";
-    public static final String FILE_DETAIL    = FOLDER + "/detail.txt";
 
     private static ArrayList<String[]> bacaBaris(String path) {
         ArrayList<String[]> hasil = new ArrayList<String[]>();
@@ -210,45 +209,41 @@ public class DataFile {
                     System.out.println("[transaksi.txt] baris " + nomor + " dilewati: kendaraan/customer/mekanik tidak ditemukan");
                     continue;
                 }
-                list.add(new Transaksi(str[0], str[1], Integer.parseInt(str[2]), k, c, m, str[6], str[7]));
+                Transaksi t = new Transaksi(str[0], str[1], Integer.parseInt(str[2]), k, c, m, str[6], str[7]);
+                //kolom ke-9: kode item dipisah tanda "|" (contoh: J-001|P-001)
+                if (str.length > 8 && !str[8].isEmpty()) {
+                    for (String kode : str[8].split("\\|")) {
+                        ItemLayanan item = cariItem(listItem, kode.trim());
+                        if (item == null) {
+                            System.out.println("[transaksi.txt] baris " + nomor + ": item " + kode + " tidak ditemukan, dilewati");
+                        } else {
+                            t.addItem(item);
+                        }
+                    }
+                }
+                list.add(t);
             } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
                 laporSkip("transaksi.txt", nomor, e);
-            }
-        }
-
-        nomor = 0;
-        for (String[] str : bacaBaris(FILE_DETAIL)) {
-            nomor++;
-            try {
-                Transaksi t = cariTransaksi(list, str[0]);
-                ItemLayanan item = cariItem(listItem, str[1]);
-                if (t == null || item == null) {
-                    System.out.println("[detail.txt] baris " + nomor + " dilewati: transaksi/item tidak ditemukan");
-                    continue;
-                }
-                t.addDetail(new DetailTransaksi(item, Integer.parseInt(str[2]),
-                        Double.parseDouble(str[3]), Double.parseDouble(str[4])));
-            } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
-                laporSkip("detail.txt", nomor, e);
             }
         }
         return list;
     }
 
     public static void simpanTransaksi(ArrayList<Transaksi> list) {
-        ArrayList<String> barisTransaksi = new ArrayList<String>();
-        ArrayList<String> barisDetail = new ArrayList<String>();
+        ArrayList<String> baris = new ArrayList<String>();
         for (Transaksi t : list) {
-            barisTransaksi.add(gabung(t.getNoPKB(), t.getTanggalWaktu(), t.getKmSaatIni(),
-                    t.getKendaraan().getNoPolisi(), t.getCustomer().getNoCustomer(),
-                    t.getMekanik().getIdMekanik(), t.getSaranPerbaikan(), t.getGaransi()));
-            for (DetailTransaksi d : t.getListDetail()) {
-                barisDetail.add(gabung(t.getNoPKB(), d.getItem().getKode(), d.getQty(),
-                        d.getHargaSatuan(), d.getDiskonPersen()));
+            StringBuilder kode = new StringBuilder();
+            for (ItemLayanan item : t.getListItem()) {
+                if (kode.length() > 0) {
+                    kode.append("|");
+                }
+                kode.append(item.getKode());
             }
+            baris.add(gabung(t.getNoPKB(), t.getTanggalWaktu(), t.getKmSaatIni(),
+                    t.getKendaraan().getNoPolisi(), t.getCustomer().getNoCustomer(),
+                    t.getMekanik().getIdMekanik(), t.getSaranPerbaikan(), t.getGaransi(), kode));
         }
-        tulisBaris(FILE_TRANSAKSI, barisTransaksi);
-        tulisBaris(FILE_DETAIL, barisDetail);
+        tulisBaris(FILE_TRANSAKSI, baris);
     }
 
     /* ================= Pencarian (return null jika tidak ada) ================= */

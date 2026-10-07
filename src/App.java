@@ -9,7 +9,6 @@ import java.util.Locale;
 import com.bengkel.Cetak;
 import com.bengkel.Customer;
 import com.bengkel.DataFile;
-import com.bengkel.DetailTransaksi;
 import com.bengkel.Input;
 import com.bengkel.ItemLayanan;
 import com.bengkel.Jasa;
@@ -187,15 +186,12 @@ public class App {
             if (item == null) {
                 System.out.println("Item dengan kode " + kode + " tidak ditemukan.");
             } else {
-                int qty = Input.bacaInt("Qty = ", 1, 9999);
-                double diskon = Input.bacaDouble("Diskon (%) = ", 0, 100);
                 try {
-                    DetailTransaksi detail = new DetailTransaksi(item, qty, item.getHarga(), diskon);
                     if (item instanceof Part) {
-                        ((Part) item).kurangiStok(qty); //downcasting
+                        ((Part) item).kurangiStok(1); //downcasting
                     }
-                    transaksi.addDetail(detail);
-                    System.out.println("Ditambahkan: " + item.getNama() + " x" + qty);
+                    transaksi.addItem(item);
+                    System.out.println("Ditambahkan: " + item.getNama());
                 } catch (IllegalArgumentException e) {
                     System.out.println("Gagal menambah item: " + e.getMessage());
                 }
@@ -203,7 +199,7 @@ public class App {
             lagi = Input.bacaString("Tambah item lagi? (y/n) = ");
         } while (lagi.equalsIgnoreCase("y"));
 
-        if (transaksi.getListDetail().isEmpty()) {
+        if (transaksi.getListItem().isEmpty()) {
             System.out.println("Transaksi dibatalkan: minimal harus ada 1 item.");
             return;
         }
