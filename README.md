@@ -2,20 +2,21 @@
 
 Aplikasi konsol Java (OOP) untuk mencatat transaksi servis motor: customer, mekanik, motor, part, jasa, dan struk.
 
+## Cara menjalankan di VS Code
+1. Extract ZIP ini.
+2. Di VS Code pilih **File > Open Folder** lalu buka folder **Project-PBO-main** (folder yang berisi `src`, `data`, dan `.vscode`).
+3. Buka `src/com/bengkel/App.java`.
+4. Klik **Run** di atas method `main`, atau buka **Run and Debug** dan pilih **Jalankan Aplikasi Bengkel**.
+5. Tidak perlu mengetik `javac App.java` dari folder `src/com/bengkel`.
+
+Jika memakai ekstensi Code Runner, tombol **Run Code** juga sudah diarahkan untuk compile seluruh class dan menjalankan `com.bengkel.App`.
+
+Alternatif Windows: klik dua kali `Jalankan-Bengkel.bat`.
+
 ## Struktur
 - `src/com/bengkel/` : kelas model, util (`Input`, `DataFile`, `Validasi`), dan `App`
 - `data/` : data teks (customer, mekanik, kendaraan, item, transaksi, detail)
+- `.vscode/` : konfigurasi Run/Debug VS Code
 
-## Format data
-- Customer: `id,nama,noHP,alamat,noCustomer,email` (id `Pxxx`, noCustomer `Cxxx`)
-- Mekanik: `id,nama,noHP,alamat,idMekanik,spesialisasi`
-- Kendaraan: `Motor,noPolisi,merk,tipe,tahun,warna,km,noRangka,noMesin,jenis`
-- Item: `Part|Jasa,kode,nama,harga,merk/kategori,stok/estimasi`
-- Transaksi: `noPKB,tanggal,km,noPolisi,noCustomer,idMekanik,saran,garansi`
-- Detail: `noPKB,kodeItem,qty`
-
-## Build dan jalankan (dari folder project)
-```
-javac -encoding UTF-8 -d bin src/com/bengkel/*.java
-java -cp bin com.bengkel.App
-```
+## Penting
+Semua class menggunakan package `com.bengkel`, jadi compile harus dilakukan terhadap seluruh file Java, bukan hanya `App.java`.

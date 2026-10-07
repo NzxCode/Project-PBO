@@ -415,7 +415,7 @@ public class App {
         Transaksi trx = new Transaksi(
                 Transaksi.buatNoPKB(sekarang, nomorUrutHariIni(sekarang)),
                 Transaksi.formatTanggal(sekarang),
-                km, kendaraan, cust, mek);
+                km, kendaraan, cust, mek, "-", "-");
 
         tampilItem();
         System.out.println("Masukkan kode item (kosongkan untuk selesai).");

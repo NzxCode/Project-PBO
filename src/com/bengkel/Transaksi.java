@@ -36,18 +36,22 @@ public class Transaksi implements Cetak {
     private Mekanik mekanik;
     private String saranPerbaikan;
     private String garansi;
+    private double totalJasa;
+    private double totalPart;
+    private double grandTotal;
 
     private final List<Baris> daftarItemLayanan = new ArrayList<>();
 
-    public Transaksi(String noPKB, String tanggalWaktu, int kmSaatIni, Kendaraan kendaraan, Customer customer, Mekanik mekanik) {
+    public Transaksi(String noPKB, String tanggalWaktu, int kmSaatIni, Kendaraan kendaraan, Customer customer, Mekanik mekanik, String saranPerbaikan, String garansi) {
         setNoPKB(noPKB);
         setTanggalWaktu(tanggalWaktu);
         setKendaraan(kendaraan);
         setKmSaatIni(kmSaatIni);
         setCustomer(customer);
         setMekanik(mekanik);
-        this.saranPerbaikan = "-";
-        this.garansi = "-";
+        setSaranPerbaikan(saranPerbaikan);
+        setGaransi(garansi);
+        hitungUlangTotal();
     }
 
     public Transaksi() {
@@ -55,6 +59,9 @@ public class Transaksi implements Cetak {
         this.tanggalWaktu = "-";
         this.saranPerbaikan = "-";
         this.garansi = "-";
+        this.totalJasa = 0;
+        this.totalPart = 0;
+        this.grandTotal = 0;
     }
 
     /** Format nomor PKB: PKB-yyyyMMdd-NNN. */
@@ -80,10 +87,12 @@ public class Transaksi implements Cetak {
         for (Baris b : daftarItemLayanan) {
             if (b.item == item) {
                 b.qty += qty;
+                hitungUlangTotal();
                 return;
             }
         }
         daftarItemLayanan.add(new Baris(item, qty));
+        hitungUlangTotal();
     }
 
     public List<Baris> getDaftarItemLayanan() {
@@ -98,7 +107,16 @@ public class Transaksi implements Cetak {
         return total;
     }
 
-    public double hitungTotal() { return getGrandTotal(); }
+    private void hitungUlangTotal() {
+        totalJasa = totalPerJenis("JASA");
+        totalPart = totalPerJenis("PART");
+        grandTotal = totalJasa + totalPart;
+    }
+
+    public double hitungTotal() {
+        hitungUlangTotal();
+        return grandTotal;
+    }
 
     private static String teks(String s) { return (s == null || s.isEmpty()) ? "-" : s; }
 
@@ -177,7 +195,7 @@ public class Transaksi implements Cetak {
     public Mekanik getMekanik() { return mekanik; }
     public String getSaranPerbaikan() { return saranPerbaikan; }
     public String getGaransi() { return garansi; }
-    public double getTotalJasa() { return totalPerJenis("JASA"); }
-    public double getTotalPart() { return totalPerJenis("PART"); }
-    public double getGrandTotal() { return getTotalJasa() + getTotalPart(); }
+    public double getTotalJasa() { return totalJasa; }
+    public double getTotalPart() { return totalPart; }
+    public double getGrandTotal() { return grandTotal; }
 }
