@@ -1,34 +1,39 @@
+// File: Mekanik.java
 package com.bengkel;
 
-/*
- * Child Class: Mekanik
- */
+// Class Mekanik adalah turunan langsung (child class) dari class Person
 public class Mekanik extends Person {
+    // Variabel eksklusif untuk mendeskripsikan mekanik
     private String idMekanik;
     private String spesialisasi;
 
-    //Constructor #1
+    // Constructor utama dengan semua variabel parent dan child terdefinisi
     public Mekanik(String id, String nama, String noHP, String alamat,
                    String idMekanik, String spesialisasi) {
+        // Melempar variabel dasar ke constructor milik parent
         super(id, nama, noHP, alamat);
+        // Menetapkan sisa properti lokal melalui setter
         setIdMekanik(idMekanik);
         setSpesialisasi(spesialisasi);
     }
 
-    //Constructor #2: ask user to input each attribute value
+    // Constructor interaktif tanpa passing parameter
     public Mekanik() {
-        super(); //input atribut milik Person
+        // Melaksanakan prosedur tanya jawab dari parent class
+        super(); 
+        // Melanjutkan pertanyaan atribut yang spesifik mekanik
         setIdMekanik(Input.bacaString("ID Mekanik = "));
         setSpesialisasi(Input.bacaString("Spesialisasi = "));
     }
 
-    //setters and getters
+    // Kumpulan setter mutator untuk properti milik class ini
     public void setIdMekanik(String idMekanik) {
         this.idMekanik = idMekanik;
     }
     public void setSpesialisasi(String spesialisasi) {
         this.spesialisasi = spesialisasi;
     }
+    // Kumpulan getter accessor
     public String getIdMekanik() {
         return idMekanik;
     }
@@ -36,10 +41,7 @@ public class Mekanik extends Person {
         return spesialisasi;
     }
 
-    /*
-     * method overriding
-     * @overriding getPeran dari parent class "Person"
-     */
+    // Overriding method bawaan Person untuk me-return konfirmasi identitasnya
     @Override
     public String getPeran() {
         return "Mekanik";

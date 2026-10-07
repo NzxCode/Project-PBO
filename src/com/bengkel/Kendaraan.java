@@ -1,9 +1,9 @@
+// File: Kendaraan.java
 package com.bengkel;
 
-/*
- * Abstract (Parent) Class: Kendaraan
- */
+// Mendeklarasikan Kendaraan sebagai abstract class yang bertindak sebagai parent
 public abstract class Kendaraan {
+    // Koleksi properti private yang menjadi kerangka dasar seluruh kendaraan
     private String noPolisi;
     private String merk;
     private String tipe;
@@ -13,9 +13,10 @@ public abstract class Kendaraan {
     private String noRangka;
     private String noMesin;
 
-    //Constructor #1
+    // Constructor lengkap untuk inject data kendaraan secara terprogram
     public Kendaraan(String noPolisi, String merk, String tipe, int tahun,
                      String warna, int km, String noRangka, String noMesin) {
+        // Semua proses inisialisasi diarahkan ke fungsi setter demi validasi
         setNoPolisi(noPolisi);
         setMerk(merk);
         setTipe(tipe);
@@ -26,9 +27,9 @@ public abstract class Kendaraan {
         setNoMesin(noMesin);
     }
 
-    //Constructor #2: ask user to input each attribute value
+    // Constructor kedua (default) untuk setup objek interaktif dari pengguna terminal
     public Kendaraan() {
-        //ask input for each attribute and call its setter
+        // Bertanya dan melakukan set untuk setiap atribut dasar
         setNoPolisi(Input.bacaString("No Polisi = "));
         setMerk(Input.bacaString("Merk = "));
         setTipe(Input.bacaString("Tipe = "));
@@ -39,39 +40,46 @@ public abstract class Kendaraan {
         setNoMesin(Input.bacaString("No Mesin = "));
     }
 
-    //setters - public
+    // Setter atribut noPolisi
     public void setNoPolisi(String noPolisi) {
         this.noPolisi = noPolisi;
     }
+    // Setter atribut merk
     public void setMerk(String merk) {
         this.merk = merk;
     }
+    // Setter atribut tipe
     public void setTipe(String tipe) {
         this.tipe = tipe;
     }
+    // Setter untuk tahun produksi dengan penolakan data jika tidak wajar
     public void setTahun(int tahun) {
         if (tahun < 1900) {
             throw new IllegalArgumentException("Tahun tidak valid: " + tahun);
         }
         this.tahun = tahun;
     }
+    // Setter atribut warna
     public void setWarna(String warna) {
         this.warna = warna;
     }
+    // Setter jarak tempuh dengan blokade data di bawah angka nol
     public void setKm(int km) {
         if (km < 0) {
             throw new IllegalArgumentException("KM tidak boleh negatif: " + km);
         }
         this.km = km;
     }
+    // Setter atribut noRangka
     public void setNoRangka(String noRangka) {
         this.noRangka = noRangka;
     }
+    // Setter atribut noMesin
     public void setNoMesin(String noMesin) {
         this.noMesin = noMesin;
     }
 
-    //getters - public
+    // Rentetan public getter untuk mengakses masing-masing properties objek
     public String getNoPolisi() {
         return noPolisi;
     }
@@ -97,6 +105,6 @@ public abstract class Kendaraan {
         return noMesin;
     }
 
-    //Abstract Method
+    // Abstract method agar child class merumuskan sendiri jenis kendaraannya
     public abstract String getJenisKendaraan();
 }

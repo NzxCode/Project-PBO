@@ -1,8 +1,13 @@
+// File: Cetak.java
 package com.bengkel;
 
+// Mendeklarasikan interface Cetak yang akan di-implements oleh class lain
 public interface Cetak {
-    String TOKO = "BENGKEL MOTOR JAYA ABADI";          //otomatis static final
-    String ALAMAT = "Jl. Contoh Raya No. 123, Jakarta"; //otomatis static final
+    // Mendefinisikan konstanta nama toko (otomatis static final)
+    String TOKO = "BENGKEL MOTOR JAYA ABADI";
+    // Mendefinisikan konstanta alamat toko (otomatis static final)
+    String ALAMAT = "Jl. Contoh Raya No. 123, Jakarta"; 
 
-    void struk(); //otomatis public abstract
+    // Abstract method untuk mencetak struk (otomatis public abstract)
+    void struk(); 
 }
