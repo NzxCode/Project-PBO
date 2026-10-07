@@ -3,63 +3,43 @@ package com.bengkel;
 import java.util.Scanner;
 
 public class Input {
-    private static final Scanner inputUser = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
+    // Helper untuk input teks biasa
     public static String bacaString(String pesan) {
-        String hasil;
-        do {
-            System.out.print(pesan);
-            hasil = inputUser.nextLine().trim();
-            if (hasil.isEmpty()) {
-                System.out.println("Input tidak boleh kosong, ulangi lagi!");
-            }
-        } while (hasil.isEmpty());
-        return hasil;
-    }
-
-    public static String bacaStringKosong(String pesan) {
         System.out.print(pesan);
-        return inputUser.nextLine().trim();
+        return scanner.nextLine();
     }
-    public static int bacaInt(String pesan, int min, int max) {
+
+    // Helper untuk input angka bulat (Integer) dengan Exception Handling
+    public static int bacaInt(String pesan) {
         int hasil = 0;
-        boolean isValid;
+        boolean valid = false;
         do {
-            isValid = true;
             System.out.print(pesan);
-            String cek = inputUser.nextLine().trim();
             try {
-                hasil = Integer.parseInt(cek);
-                if (hasil < min || hasil > max) {
-                    System.out.println("Nilai harus antara " + min + " dan " + max + ", ulangi lagi!");
-                    isValid = false;
-                }
+                hasil = Integer.parseInt(scanner.nextLine());
+                valid = true;
             } catch (NumberFormatException e) {
-                System.out.println("Salah input, ulangi lagi!");
-                isValid = false;
+                System.out.println("⚠️ Input harus berupa angka bulat! Silakan ulangi.");
             }
-        } while (!isValid);
+        } while (!valid);
         return hasil;
     }
 
-    public static double bacaDouble(String pesan, double min, double max) {
-        double hasil = 0;
-        boolean isValid;
+    // Helper untuk input angka desimal (Double) dengan Exception Handling
+    public static double bacaDouble(String pesan) {
+        double hasil = 0.0;
+        boolean valid = false;
         do {
-            isValid = true;
             System.out.print(pesan);
-            String cek = inputUser.nextLine().trim();
             try {
-                hasil = Double.parseDouble(cek);
-                if (Double.isNaN(hasil) || Double.isInfinite(hasil) || hasil < min || hasil > max) {
-                    System.out.println("Nilai harus antara " + min + " dan " + max + ", ulangi lagi!");
-                    isValid = false;
-                }
+                hasil = Double.parseDouble(scanner.nextLine());
+                valid = true;
             } catch (NumberFormatException e) {
-                System.out.println("Salah input, ulangi lagi!");
-                isValid = false;
+                System.out.println("⚠️ Input harus berupa angka valid (gunakan titik untuk desimal)! Silakan ulangi.");
             }
-        } while (!isValid);
+        } while (!valid);
         return hasil;
     }
 }

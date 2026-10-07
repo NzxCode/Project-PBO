@@ -3,3 +3,4 @@ P102,Dedi Kurniawan,081333334444,Jl. Anggrek No. 8 Jakarta,M002,Kelistrikan
 P103,Budi Gunadi,0821721921,JL. Kendodong No. 6 Bekasi,M003,Part Motor
 P104,Nicolas,093282219,Jl. Budiasati No. 12 Depok,M004,Spion Motor
 P105,Wahyu Kurnia,089088862341,Jl. Mawar No. 67,M005,Kelistrikan
+P106,Budianto,08123289237,Jl. Anggrek Jakarta,M006,Plat Motor

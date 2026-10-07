@@ -5,3 +5,4 @@ P003,Morisu,081728372917,Jl. Antum No. 15 Bandung,C003,morisu@gmail.com
 P004,Budiano,0826-2182-2199,Jl. Kudanil no 75 Tokyo,C004,budiano@gmail.com
 P005,Felix,08172937297,Jl. Anton no. 17 Bandung,C005,felix@gmail.com
 P006,Markus,081280006789,Jl. Bunga No. 12 Jakarta,C006,markus@gmail.com
+P007,Anton,08129382832,JL. Cukinang Jakarta,C007,anton@gmail.com
