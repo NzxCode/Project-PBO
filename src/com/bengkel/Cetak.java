@@ -1,8 +1,8 @@
 package com.bengkel;
 
 public interface Cetak {
-    String TOKO = "BENGKEL MOTOR JAYA ABADI";          //otomatis static final
-    String ALAMAT = "Jl. Contoh Raya No. 123, Jakarta"; //otomatis static final
+    String TOKO = "BENGKEL MOTOR JAYA ABADI";
+    String ALAMAT = "Jl. Contoh Raya No. 123, Jakarta";
 
-    void struk(); //otomatis public abstract
+    void struk();
 }

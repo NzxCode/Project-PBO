@@ -1,39 +1,54 @@
 package com.bengkel;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DataFile {
-    
-    // Method untuk membaca isi file teks
-    public static void bacaFile(String pathFile) {
-        try {
-            File file = new File(pathFile);
-            Scanner reader = new Scanner(file);
-            System.out.println("--- Membaca Data dari: " + pathFile + " ---");
-            while (reader.hasNextLine()) {
-                String data = reader.nextLine();
-                System.out.println(data);
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("⚠️ File tidak ditemukan: " + pathFile);
+/** Utilitas file teks (CSV sederhana). Tidak mencetak apa pun; pemanggil yang menangani pesan. */
+public final class DataFile {
+    private DataFile() {}
+
+    /** Membaca semua baris tidak kosong, dipecah per koma. File belum ada = daftar kosong. */
+    public static List<String[]> bacaBaris(String pathFile) throws IOException {
+        List<String[]> hasil = new ArrayList<>();
+        Path path = Paths.get(pathFile);
+        if (!Files.exists(path)) return hasil;
+        for (String baris : Files.readAllLines(path, StandardCharsets.UTF_8)) {
+            if (baris.trim().isEmpty()) continue;
+            String[] kolom = baris.split(",", -1);
+            for (int i = 0; i < kolom.length; i++) kolom[i] = kolom[i].trim();
+            hasil.add(kolom);
         }
+        return hasil;
     }
 
-    // Method untuk menulis data ke file teks
-    public static void tulisFile(String pathFile, String konten, boolean append) {
-        try {
-            FileWriter writer = new FileWriter(pathFile, append);
-            writer.write(konten + System.lineSeparator());
-            writer.close();
-            System.out.println("✅ Data berhasil disimpan ke " + pathFile);
-        } catch (IOException e) {
-            System.out.println("⚠️ Terjadi kesalahan saat menulis file.");
-            e.printStackTrace();
-        }
+    /** Menambah satu baris di akhir file (folder dibuat otomatis). */
+    public static void tambahBaris(String pathFile, String baris) throws IOException {
+        Path path = Paths.get(pathFile);
+        buatFolder(path);
+        Files.write(path, (baris + System.lineSeparator()).getBytes(StandardCharsets.UTF_8),
+                StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+    }
+
+    /** Menimpa seluruh isi file. */
+    public static void tulisSemua(String pathFile, List<String> baris) throws IOException {
+        Path path = Paths.get(pathFile);
+        buatFolder(path);
+        Files.write(path, baris, StandardCharsets.UTF_8);
+    }
+
+    private static void buatFolder(Path path) throws IOException {
+        Path folder = path.toAbsolutePath().getParent();
+        if (folder != null) Files.createDirectories(folder);
+    }
+
+    /** Menghilangkan koma/baris baru agar tidak merusak format CSV. */
+    public static String bersihkan(String s) {
+        return s == null ? "" : s.replace(',', ' ').replace('\n', ' ').replace('\r', ' ').trim();
     }
 }

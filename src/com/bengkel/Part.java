@@ -6,20 +6,27 @@ public class Part extends ItemLayanan {
 
     public Part(String kode, String nama, double harga, String merk, int stok) {
         super(kode, nama, harga);
-        this.merk = merk;
-        this.stok = stok;
+        setMerk(merk);
+        setStok(stok);
     }
 
     public Part() { super(); }
 
-    public void setMerk(String merk) { this.merk = merk; }
-    public void setStok(int stok) { this.stok = stok; }
+    public void setMerk(String merk) { this.merk = Validasi.wajibIsi(merk, "Merk"); }
+    public void setStok(int stok) { this.stok = Validasi.tidakNegatif(stok, "Stok"); }
 
     public String getMerk() { return merk; }
     public int getStok() { return stok; }
-    
-    public void kurangStok(int jumlah) { 
-        if (this.stok >= jumlah) this.stok -= jumlah; 
+
+    /** Mengurangi stok. Melempar exception jika jumlah tidak valid atau stok kurang. */
+    public void kurangiStok(int jumlah) {
+        if (jumlah <= 0) {
+            throw new IllegalArgumentException("Jumlah harus lebih dari 0.");
+        }
+        if (jumlah > stok) {
+            throw new IllegalArgumentException("Stok " + getNama() + " tidak cukup (sisa " + stok + ", diminta " + jumlah + ").");
+        }
+        this.stok -= jumlah;
     }
 
     @Override

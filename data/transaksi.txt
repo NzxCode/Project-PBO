@@ -1,6 +1,4 @@
 PKB-20260924-001,24-09-2026 10:15,15200,B 1234 ABC,C001,M001,Ganti kampas rem belakang bulan depan,Garansi jasa 7 hari
-234143,09-07-2026 21:49,15,B 1234 ABC,C001,M001,Mungkin transaksinya dapat diperbarui,4 bulan
-PKB-20260927-001,27-09-2026 21:40,12200,B 5678 DEF,C001,M003,Ganti Knalpotnya soalnya agak bocor,1 bulan
-PKB-20260928-002,28-09-2026,1200,B 1234 ABC,C001,M001,Teoritis,5 Hari
-PKB-20262809,28-09-2026 19 : 03,15203,B 1234 ABC,C001,M001,Ganti Struk yang lebih sesuai,1 tahun
-PKB-20261001,01-10-2026 11:55,10000,B 1234 BCH,C006,M005,Lampu nya pecah,3 bulan
+PKB-20260927-001,27-09-2026 21:40,12200,B 5678 DEF,C002,M003,Ganti knalpot karena agak bocor,Garansi 1 bulan
+PKB-20260928-001,28-09-2026 19:03,15203,B 1234 ABC,C001,M001,Cek rutin 5000 km berikutnya,Garansi 5 hari
+PKB-20261001-001,01-10-2026 11:55,10000,B 1234 BCH,C007,M005,Lampu depan pecah diganti,Garansi 3 bulan
