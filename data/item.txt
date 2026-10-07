@@ -1,11 +1,7 @@
-Part,P-001,Oli Mesin 0.8L,55000.0,Yamalube,7
-Part,P-002,Kampas Rem Depan,85000.0,Honda,5
+Part,P-001,Oli Mesin 0.8L,55000.0,Yamalube,9
+Part,P-002,Kampas Rem Depan,85000.0,Honda,8
 Part,P-003,Busi,30000.0,NGK,25
 Jasa,J-001,Service Rutin,75000.0,Servis Berkala,60
 Jasa,J-002,Ganti Kampas Rem,35000.0,Rem,30
 Part,P-004,Knalpot Motor,95000.0,Honda,10
 Jasa,J-003,Ganti Knalpot Motor,45000.0,Knalpot,45
-Part,P-005,Spion Motor,25000.0,Honda,10
-Jasa,J-004,Ganti Spion Motor,15000.0,Spion Jasa,20
-Part,P-006,Lampu Depan,95000.0,Brembo,9
-

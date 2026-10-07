@@ -11,14 +11,34 @@ public abstract class ItemLayanan {
         setHarga(harga);
     }
 
-    public ItemLayanan() {}
+    public ItemLayanan() {
+        setKode(Input.bacaString("Kode = "));
+        setNama(Input.bacaString("Nama = "));
+        setHarga(Input.bacaDouble("Harga = ", 0, Double.MAX_VALUE));
+    }
 
-    public String getKode() { return kode; }
-    public void setKode(String kode) { this.kode = Validasi.wajibIsi(kode, "Kode"); }
-    public String getNama() { return nama; }
-    public void setNama(String nama) { this.nama = Validasi.wajibIsi(nama, "Nama item"); }
-    public double getHarga() { return harga; }
-    public void setHarga(double harga) { this.harga = Validasi.tidakNegatif(harga, "Harga"); }
+    public void setKode(String kode) {
+        this.kode = kode;
+    }
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+    public void setHarga(double harga) {
+        if (harga < 0) {
+            throw new IllegalArgumentException("Harga tidak boleh negatif: " + harga);
+        }
+        this.harga = harga;
+    }
+
+    public String getKode() {
+        return kode;
+    }
+    public String getNama() {
+        return nama;
+    }
+    public double getHarga() {
+        return harga;
+    }
 
     public abstract String getJenisItem();
 }

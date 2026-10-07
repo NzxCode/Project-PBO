@@ -1,22 +1,22 @@
-# Aplikasi Kasir Bengkel Motor (Project PBO)
+## Getting Started
 
-Aplikasi konsol Java (OOP) untuk mencatat transaksi servis motor: customer, mekanik, motor, part, jasa, dan struk.
+Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
-## Cara menjalankan di VS Code
-1. Extract ZIP ini.
-2. Di VS Code pilih **File > Open Folder** lalu buka folder **Project-PBO-main** (folder yang berisi `src`, `data`, dan `.vscode`).
-3. Buka `src/com/bengkel/App.java`.
-4. Klik **Run** di atas method `main`, atau buka **Run and Debug** dan pilih **Jalankan Aplikasi Bengkel**.
-5. Tidak perlu mengetik `javac App.java` dari folder `src/com/bengkel`.
+## Folder Structure
 
-Jika memakai ekstensi Code Runner, tombol **Run Code** juga sudah diarahkan untuk compile seluruh class dan menjalankan `com.bengkel.App`.
+The workspace contains two folders by default, where:
 
-Alternatif Windows: klik dua kali `Jalankan-Bengkel.bat`.
+- `src`: the folder to maintain sources
+- `lib`: the folder to maintain dependencies
 
-## Struktur
-- `src/com/bengkel/` : kelas model, util (`Input`, `DataFile`, `Validasi`), dan `App`
-- `data/` : data teks (customer, mekanik, kendaraan, item, transaksi, detail)
-- `.vscode/` : konfigurasi Run/Debug VS Code
+Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
-## Penting
-Semua class menggunakan package `com.bengkel`, jadi compile harus dilakukan terhadap seluruh file Java, bukan hanya `App.java`.
+> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+
+## Dependency Management
+
+The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+# Project-PBO
+
+Pembuatan Project PBO untuk pembuatan website yang bener2 bisa bermanfaat dalam proyekan

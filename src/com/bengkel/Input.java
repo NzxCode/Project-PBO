@@ -2,63 +2,64 @@ package com.bengkel;
 
 import java.util.Scanner;
 
-/** Helper input konsol. Satu Scanner bersama; tidak pernah menutup System.in. */
-public final class Input {
-    private static final Scanner SCANNER = new Scanner(System.in);
+public class Input {
+    private static final Scanner inputUser = new Scanner(System.in);
 
-    private Input() {}
-
-    /** Teks boleh kosong. */
-    public static String bacaOpsional(String pesan) {
-        System.out.print(pesan);
-        return SCANNER.nextLine().trim();
-    }
-
-    /** Teks wajib diisi. */
     public static String bacaString(String pesan) {
-        while (true) {
-            String s = bacaOpsional(pesan);
-            if (!s.isEmpty()) return s;
-            System.out.println("[!] Tidak boleh kosong.");
-        }
-    }
-
-    public static int bacaInt(String pesan, int min, int maks) {
-        while (true) {
-            try {
-                int v = Integer.parseInt(bacaOpsional(pesan));
-                if (v < min || v > maks) {
-                    System.out.println("[!] Nilai harus antara " + min + " dan " + maks + ".");
-                    continue;
-                }
-                return v;
-            } catch (NumberFormatException e) {
-                System.out.println("[!] Input harus berupa angka bulat.");
+        String hasil;
+        do {
+            System.out.print(pesan);
+            hasil = inputUser.nextLine().trim();
+            if (hasil.isEmpty()) {
+                System.out.println("Input tidak boleh kosong, ulangi lagi!");
             }
-        }
+        } while (hasil.isEmpty());
+        return hasil;
     }
 
-    public static double bacaDouble(String pesan, double min) {
-        while (true) {
+    public static String bacaStringKosong(String pesan) {
+        System.out.print(pesan);
+        return inputUser.nextLine().trim();
+    }
+    public static int bacaInt(String pesan, int min, int max) {
+        int hasil = 0;
+        boolean isValid;
+        do {
+            isValid = true;
+            System.out.print(pesan);
+            String cek = inputUser.nextLine().trim();
             try {
-                double v = Double.parseDouble(bacaOpsional(pesan));
-                if (v < min) {
-                    System.out.println("[!] Nilai minimal " + min + ".");
-                    continue;
+                hasil = Integer.parseInt(cek);
+                if (hasil < min || hasil > max) {
+                    System.out.println("Nilai harus antara " + min + " dan " + max + ", ulangi lagi!");
+                    isValid = false;
                 }
-                return v;
             } catch (NumberFormatException e) {
-                System.out.println("[!] Input harus berupa angka (pakai titik untuk desimal).");
+                System.out.println("Salah input, ulangi lagi!");
+                isValid = false;
             }
-        }
+        } while (!isValid);
+        return hasil;
     }
 
-    public static boolean bacaYaTidak(String pesan) {
-        while (true) {
-            String s = bacaOpsional(pesan + " (y/n): ").toLowerCase();
-            if (s.equals("y")) return true;
-            if (s.equals("n")) return false;
-            System.out.println("[!] Ketik y atau n.");
-        }
+    public static double bacaDouble(String pesan, double min, double max) {
+        double hasil = 0;
+        boolean isValid;
+        do {
+            isValid = true;
+            System.out.print(pesan);
+            String cek = inputUser.nextLine().trim();
+            try {
+                hasil = Double.parseDouble(cek);
+                if (Double.isNaN(hasil) || Double.isInfinite(hasil) || hasil < min || hasil > max) {
+                    System.out.println("Nilai harus antara " + min + " dan " + max + ", ulangi lagi!");
+                    isValid = false;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Salah input, ulangi lagi!");
+                isValid = false;
+            }
+        } while (!isValid);
+        return hasil;
     }
 }
