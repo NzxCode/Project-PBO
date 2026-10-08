@@ -1,39 +1,29 @@
-// File: Motor.java
 package com.bengkel;
 
-// Mendeklarasikan class Motor (child class) yang mengadopsi properti dari Kendaraan
+// Child class dari Kendaraan. Digunakan jika bengkel mengekspansi layanannya ke tipe kendaraan lain (mobil/truk).
 public class Motor extends Kendaraan {
-    // Deklarasi field khusus tambahan
+    // Field penanda klasifikasi motor (matic, bebek, sport).
     private String jenisMotor;
 
-    // Constructor dengan kombinasi parameter penuh dari awal
+    // Constructor untuk load state dari memory/file.
     public Motor(String noPolisi, String merk, String tipe, int tahun,
                  String warna, int km, String noRangka, String noMesin,
                  String jenisMotor) {
-        // Eksekusi konstruktor super class Kendaraan untuk atribut utamanya
+        // Binding data dasar kendaraan bermotor ke parent constructor.
         super(noPolisi, merk, tipe, tahun, warna, km, noRangka, noMesin);
-        // Injeksi nilai khusus motor ke setternya sendiri
         setJenisMotor(jenisMotor);
     }
 
-    // Constructor untuk perolehan data dari CLI
+    // Constructor input manual.
     public Motor() {
-        // Mengarahkan alur ke constructor bawaan parent class 
-        super(); 
-        // Menggunakan helper Input untuk mengisi field jenisMotor
+        super(); // Input plat, merk, km, dll.
         setJenisMotor(Input.bacaString("Jenis Motor (Matic/Bebek/Sport) = "));
     }
 
-    // Setter untuk melakukan update tipe badan motor
-    public void setJenisMotor(String jenisMotor) {
-        this.jenisMotor = jenisMotor;
-    }
-    // Getter pengambil data tipe motor
-    public String getJenisMotor() {
-        return jenisMotor;
-    }
+    public void setJenisMotor(String jenisMotor) { this.jenisMotor = jenisMotor; }
+    public String getJenisMotor() { return jenisMotor; }
 
-    // Menyediakan implementasi kongkret untuk abstract method parent
+    // Memastikan polymorphism nanti berjalan benar saat ditanya jenis kendaraannya.
     @Override
     public String getJenisKendaraan() {
         return "Motor";

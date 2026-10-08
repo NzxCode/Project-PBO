@@ -1,13 +1,14 @@
-// File: Cetak.java
 package com.bengkel;
 
-// Mendeklarasikan interface Cetak yang akan di-implements oleh class lain
+// Interface bertindak sebagai kontrak (contract) baku untuk class yang mengimplementasikannya.
+// Semua class yang meng-implements Cetak diwajibkan memiliki fungsionalitas cetak struk.
 public interface Cetak {
-    // Mendefinisikan konstanta nama toko (otomatis static final)
+    // Di dalam interface, setiap variabel otomatis bersifat public static final (konstanta).
+    // Cocok untuk menyimpan data statis seperti nama toko agar menghindari hardcode.
     String TOKO = "BENGKEL MOTOR JAYA ABADI";
-    // Mendefinisikan konstanta alamat toko (otomatis static final)
     String ALAMAT = "Jl. Contoh Raya No. 123, Jakarta"; 
 
-    // Abstract method untuk mencetak struk (otomatis public abstract)
+    // Abstract method tanpa body.
+    // Memaksa class turunannya untuk mendefinisikan sendiri bagaimana cara mencetak struk.
     void struk(); 
 }

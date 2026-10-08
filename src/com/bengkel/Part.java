@@ -1,65 +1,45 @@
-// File: Part.java
 package com.bengkel;
 
-// Mendirikan class Part sebagai child class turunan dari parent ItemLayanan
+// Sub-class dari ItemLayanan yang merepresentasikan suku cadang fisik.
 public class Part extends ItemLayanan {
-    // Variabel enkapsulasi private khusus untuk suku cadang
+    // Memiliki perilaku stok karena barang fisik bisa habis.
     private String merk;
     private int stok;
 
-    // Constructor eksplisit untuk pengisian data via argumen lengkap
     public Part(String kode, String nama, double harga, String merk, int stok) {
-        // Mewariskan pengisian atribut dasar ke super class
+        // Set harga, nama, kode di parent.
         super(kode, nama, harga);
-        // Mengalokasikan nilai parameter yang tersisa ke setternya masing-masing
         setMerk(merk);
         setStok(stok);
     }
 
-    // Constructor input terminal jika tidak ada nilai yang di-pass
     public Part() {
-        // Menjalankan input loop atribut parent
-        super(); 
-        // Melengkapi input loop untuk atribut child
+        // Run interaksi terminal untuk atribut super.
+        super();
         setMerk(Input.bacaString("Merk = "));
         setStok(Input.bacaInt("Stok = ", 0, Integer.MAX_VALUE));
     }
 
-    // Setup mutator (setter) untuk field brand/merk part
-    public void setMerk(String merk) {
-        this.merk = merk;
-    }
-    // Setup setter stok yang memiliki penjagaan exception anti nilai negatif
+    public void setMerk(String merk) { this.merk = merk; }
+    
+    // Setter dengan proteksi integritas inventory.
     public void setStok(int stok) {
-        if (stok < 0) {
-            throw new IllegalArgumentException("Stok tidak boleh negatif: " + stok);
-        }
+        if (stok < 0) throw new IllegalArgumentException("Stok tidak boleh negatif: " + stok);
         this.stok = stok;
     }
-    // Accessor method (getter) pembaca nama merk
-    public String getMerk() {
-        return merk;
-    }
-    // Accessor method untuk membaca jumlah inventory tersisa
-    public int getStok() {
-        return stok;
-    }
+    
+    public String getMerk() { return merk; }
+    public int getStok() { return stok; }
 
-    // Method fungsional untuk mengurasi jumlah stok barang seiring transaksi
+    // Fungsionalitas bisnis khusus untuk memotong stok saat barang laku.
     public void kurangiStok(int jumlah) {
-        // Memastikan barang yang dikurangi logis (minimal 1)
-        if (jumlah <= 0) {
-            throw new IllegalArgumentException("Jumlah harus lebih dari 0");
-        }
-        // Exception ditarik jika perintaan lebih besar dari jumlah barang gudang
-        if (jumlah > stok) {
-            throw new IllegalArgumentException("Stok " + getNama() + " tidak cukup (sisa " + stok + ")");
-        }
-        // Kalkulasi mutasi pengurangan barang yang lolos cek keamanan
-        stok = stok - jumlah;
+        // Guard clause untuk memblokir pengurangan dengan nilai 0 atau negatif.
+        if (jumlah <= 0) throw new IllegalArgumentException("Jumlah harus lebih dari 0");
+        // Guard clause mencegah insiden overselling (minus inventory).
+        if (jumlah > stok) throw new IllegalArgumentException("Stok " + getNama() + " tidak cukup (sisa " + stok + ")");
+        stok -= jumlah; // Mutasi stok yang aman.
     }
 
-    // Overriding kewajiban klasifikasi dari abstract item parent
     @Override
     public String getJenisItem() {
         return "Part";
